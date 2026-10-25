@@ -1,0 +1,25 @@
+{
+  "name": "omp-grill-me-skill",
+  "version": "0.1.0",
+  "description": "OMP skill for enhanced questioning and deep analysis",
+  "author": "Job Finder Agent Team",
+  "type": "agent-capability",
+  "capabilities": [
+    {
+      "name": "deep-questioning",
+      "description": "Provides structured questioning techniques for deeper information extraction",
+      "input": {
+        "query": "string",
+        "context": "object"
+      },
+      "output": {
+        "analysis": "object",
+        "follow_up_questions": "array",
+        "key_insights": "array"
+      }
+    }
+  ],
+  "dependencies": {
+    "omp": "^1.0.0"
+  }
+}
