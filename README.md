@@ -29,4 +29,4 @@ You can also invoke the skill directly:
 
 `grill-me` does not start on its own. The underlying `grilling` skill is what runs the interview, including when you ask to grill an idea in prose.
 
-Answer the whole round, then wait for the next one. The session ends when the frontier is empty. It will restate the shared understanding and wait for you to confirm it before doing anything else.
+Each round opens OMP's question picker through the `ask` tool. Answer that round, and the next picker is the decisions your answers just unlocked. When nothing is left, it restates the shared understanding and waits for you to confirm before doing anything else.

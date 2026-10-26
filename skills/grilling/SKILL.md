@@ -5,30 +5,40 @@ description: Interview the user in rounds about a plan, decision, or idea until 
 
 # Grilling
 
-Interview the user until the two of you share an understanding of the idea. This session is stateless: write no files, leave no glossary, and do not implement, edit, or draft a plan. If plan mode is on, stay in the interview. Plan mode is for later.
+Interview the user until you share an understanding of the idea. The interview is interactive: each round is an `ask` tool call, and that call is what gives the user a turn.
 
-Map the idea as a design tree. Every decision branches into the decisions that hang off it.
+A question written in your reply does not pause. Do not print the round as chat text. Do not implement, edit files, or draft a plan. If plan mode is on, stay in the interview.
 
-Work the tree in rounds. The frontier is every decision whose prerequisites are already settled: the questions you can ask now without guessing at an answer you have not heard. Ask the whole frontier in one round. Number each question and give your recommended answer. Then stop and wait.
+## Each round
 
-Format a round like this:
+The frontier is every decision whose prerequisites are already settled. Ask that whole set in one `ask` call. A question that depends on another question in this same call belongs to a later round.
 
+Call `ask` like this, then stop until it returns:
+
+```json
+{
+  "questions": [
+    {
+      "id": "storage",
+      "header": "Storage",
+      "question": "Which storage should this use?",
+      "options": [
+        { "label": "SQLite", "description": "One file, no extra service." },
+        { "label": "Postgres", "description": "Shared server, more moving parts." }
+      ],
+      "recommended": 0
+    }
+  ]
+}
 ```
-❓ **Q1** - **<question title>**: <question body. A question may be several paragraphs and may include choices.>
 
-➡️ <your recommended answer>
+- Give each question 2–5 real options. Short `label`, the tradeoff in `description`.
+- `recommended` is the index of the option you would pick. Word the question so choosing it accepts that recommendation.
+- Do not add an "Other" option. The picker adds "Other (type your own)" itself.
+- Look up facts yourself. Do not spend an `ask` on something you can read from the repo, docs, or a tool.
 
----
+## After the user answers
 
-❓ **Q2** - **<question title>**: <question body>
+Recompute the frontier from the `ask` results. If any decision is still open, call `ask` again with only that new frontier. If the frontier is empty, restate the shared understanding in a short message and stop. Do nothing else until the user confirms it.
 
-➡️ <your recommended answer>
-```
-
-Word each question so "yes" accepts your recommended answer.
-
-Each round of answers reshapes the tree. Settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier before the next round. A question whose answer depends on another question still open in this round belongs to a later round.
-
-Finding facts is your job, never the user's. When a frontier question needs something you can look up in the repo, the docs, or with a tool, look it up. If you can dispatch a subagent, do that and do not block the rest of the round on it: questions downstream of that lookup wait, and you ask the rest of the frontier now. The decisions belong to the user. Put each one to them and wait.
-
-The session is done when the frontier is empty: every branch has been visited, and nothing important is still an unspoken assumption. Restate the shared understanding and wait for the user to confirm it. Do not act on the idea until they confirm.
+If the user chooses "Chat about this", talk about that point, then return to `ask` for whatever is still unsettled.
