@@ -1,0 +1,12 @@
+{
+  "name": "omp-grill-me-skill",
+  "version": "0.2.0",
+  "description": "Interview a loose idea in rounds until every decision is settled. Writes no files.",
+  "license": "MIT",
+  "private": true,
+  "omp": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}

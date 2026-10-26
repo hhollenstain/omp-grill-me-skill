@@ -1,36 +1,32 @@
-# Grill Me Skill
+# Grill Me
 
-This repository contains the Grill Me skill for OMP (Open Model Platform). The Grill Me skill is designed to enhance question-answering capabilities by providing structured, in-depth responses through a questioning technique.
+An OMP plugin that interviews you about a loose idea until every decision is settled. It follows the grilling session from [Matt Pocock's skills](https://github.com/mattpocock/skills): questions arrive in rounds, each round is the whole frontier, and the session writes no files.
 
-## Overview
+## Install
 
-The Grill Me skill implements a sophisticated questioning approach that helps extract deeper insights from information sources. It's particularly useful for:
-- Complex problem analysis
-- Deep diving into technical topics
-- Extracting nuanced information
-- Improving the quality of AI responses through iterative questioning
+From the OMP Honk marketplace:
 
-## Installation
+```sh
+omp plugin marketplace add https://github.com/hhollenstain/omp-honk-marketplace.git
+omp plugin install omp-grill-me-skill@omp-honk-marketplace
+```
 
-To install this skill in OMP:
+Start a new omp session, or run `/reload-plugins` in the one you already have.
 
-1. Clone this repository
-2. Follow the OMP documentation for skill installation
-3. Configure necessary environment variables
-4. Add the skill to your agent's capabilities
+## Use
 
-## Usage
+Start a fresh conversation and leave plan mode off. Plan mode pushes the agent to produce a plan; this session exists to keep asking.
 
-The skill can be invoked as part of an agent's workflow to:
-- Analyze complex queries
-- Break down technical concepts
-- Provide multi-layered responses
-- Enhance information retrieval processes
+```text
+/omp-grill-me-skill:grill-me a marketplace of small OMP skills
+```
 
-## Development
+You can also invoke the skill directly:
 
-This skill is built with OMP's extension framework and follows standard practices for agent capabilities.
+```text
+/skill:grill-me a marketplace of small OMP skills
+```
 
-## Contributing
+`grill-me` does not start on its own. The underlying `grilling` skill is what runs the interview, including when you ask to grill an idea in prose.
 
-Please see the contributing guidelines in the main OMP documentation.
+Answer the whole round, then wait for the next one. The session ends when the frontier is empty. It will restate the shared understanding and wait for you to confirm it before doing anything else.

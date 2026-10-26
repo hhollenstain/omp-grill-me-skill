@@ -1,0 +1,11 @@
+{
+  "name": "omp-grill-me-skill",
+  "version": "0.2.0",
+  "description": "Interview a loose idea in rounds until every decision is settled. Writes no files.",
+  "author": {
+    "name": "Henry Hollenstain",
+    "email": "henry.l.hollenstain@gmail.com"
+  },
+  "skills": "./skills",
+  "commands": "./commands"
+}
